@@ -4,7 +4,7 @@ from flask_login import login_required
 from . import main
 from .forms import Pitch
 from .. import db
-from ..models import User,Pitches,Coments
+from ..models import User,Pitches,Comments
 
 @main.route('/')
 def index():
