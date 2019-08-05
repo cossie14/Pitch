@@ -5,13 +5,14 @@ from . import main
 from .forms import Pitch
 from .. import db
 from ..models import User,Pitches,Comments
+from .forms import Pitch, UpdateProfile
 
 @main.route('/')
 def index():
   user = User.query.filter_by(username='uname').first()
   pitches = Pitches.query.all()
-  title = 'Welcome to pitch'
-  message = 'Cool pitches'
+  title = 'Welcome to the best pitching site'
+  message = 'PITCH YOUR FAVORITE IDEA'
   return render_template('index.html',message = message,title= title,pitches = pitches, user=user)
 
 @main.route('/user/<uname>',methods=['GET','POST'])
@@ -36,3 +37,14 @@ def pitches(uname):
     return redirect(url_for('main.index'))
   title='Pitches'
   return render_template('pitch.html',title=title,pitch_form=pitch_form)
+
+
+
+@main.route('/inteview/pitches/')
+def coding():
+    '''
+    View root page function that returns the index page and its data
+    '''
+    pitches= Pitch.get_all_pitches()
+    title = 'Home - Welcome to The best Pitching Website Online'  
+    return render_template('coding.html', title = title, pitches= pitches )
