@@ -8,6 +8,7 @@ class Config:
     SECRET_KEY = 'sly'
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://sylviah:sly@localhost/pitches'
     UPLOADED_PHOTOS_DEST ='app/static/photos'
+    SQLALCHEMY_TRACK_MODIFICATIONS=False
     #  SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
     
     #  email configurations
@@ -24,7 +25,7 @@ class Config:
     SIMPLEMDE_USE_CDN = True
 
 class TestConfig(Config):
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://vincent:Empharse333@localhost/pitch_test'
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://sylviah:sly@localhost/pitch'
 
 
 class ProdConfig(Config):

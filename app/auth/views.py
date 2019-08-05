@@ -8,7 +8,6 @@ from ..email import mail_message
 
 
 
-import markdown2
 
 
 @auth.route('/login',methods=['GET','POST'])
