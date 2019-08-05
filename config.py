@@ -6,8 +6,9 @@ class Config:
     General configuration parent class
     '''
     SECRET_KEY = 'sly'
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://sylviah:cossie@localhost/pitch'
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://sylviah:sly@localhost/pitches'
     UPLOADED_PHOTOS_DEST ='app/static/photos'
+    #  SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
     
     #  email configurations
     MAIL_SERVER = 'smtp.googlemail.com'
@@ -32,7 +33,7 @@ class ProdConfig(Config):
     Args:
         Config: The parent configuration class with General configuration settings
     '''
-    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
+    pass
     
 class DevConfig(Config):
     '''

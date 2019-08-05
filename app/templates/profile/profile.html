@@ -1,40 +1,40 @@
 {% extends 'base.html'%}
-{% block styles %}
-  {{ super() }}
-  <link href="https://fonts.googleapis.com/css?family=Abril+Fatface" rel="stylesheet">
-  <link rel="stylesheet" href="{{url_for('static',filename='./css/index.css') }}" type='text/css'>
-{% endblock %}
 
 {% block content %}
+
 <div class="container">
+
 <div class="row">
-<!-- displaying  Username-->
+
+
   <div class="col-md-4">
     <h3> {{user.username| capitalize}} </h3>
 
-  <!--Display profile photo-->
-  <div class="col-md-4">
+    {% if user.bio %}
+      <p> {{user.bio}}</p>
 
+    {%else%}
+      <p> {{user.username| capitalize}} has no bio </p>
+    {% endif %}
+
+    {% if user == current_user %}
+      <a href="{{url_for('main.update_profile',uname=user.username)}}">Edit profile</a>
+    {% endif %}
+
+  </div>
+  <div class="col-md-4">
     {% if user.profile_pic_path %}
+
     <img src="{{url_for('static',filename=user.profile_pic_path)}}" alt="" class="img-thumbnail">
+
     {%else%}
     <p>No profile picture</p>
-    {% endif %}
-  </div>
-</div>
-</div>
-  <h2 class='text-primary text-center'>Your Pitches</h2>
-  <div class="row">
-    {% for pitch in pitches %}
-    <div class="col-sm-6">
-      <ul class='list-unstyled '>
-        <li class=style>
-          <h3 class=text-primary>{{pitch.title}}</h3>
-          <h4>{{pitch.description}}</h4>
-        </li> <hr> <br>
-        </ul>
-    </div>
 
-    {% endfor %}
+    {% endif %}
+    <form  action="{{url_for('main.update_pic',uname=user.username)}}" method="post" enctype = "multipart/form-data">
+
+      <input type="file"  name="photo" class="form-control" required>
+      <input type="submit">
+
+    </form>
   </div>
-{% endblock %}

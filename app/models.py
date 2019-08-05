@@ -6,11 +6,13 @@ from datetime import datetime
 
 class User(UserMixin,db.Model):
     __tablename__='users'
-    id = db.Column(db.Integer,primary_key=True)
+   
+    # id = db.Column(db.Integer,primary_key=True)
     username = db.Column(db.String(255),index = True)
     email= db.Column(db.String(255),unique = True, index = True)
+    id = db.Column(db.Integer, primary_key=True)
     pass_secure = db.Column(db.String(100))
-    pitches=db.relationship('Pitches',backref='user',lazy='dynamic')
+    pitch=db.relationship('Pitches',backref='user',lazy='dynamic')
     profile_pic_path= db.Column(db.String())
     code = db.Column(db.Integer)
 
@@ -39,8 +41,8 @@ class Comments(db.Model):
     __tablename__='comments'
     id=db.Column(db.Integer,primary_key=True)
     title = db.Column(db.String(250))
-    comment= db.Column(db.String())
-    # users=db.relationship('User',backref='role',lazy='dynamic')
+    # comment= db.Column(db.String())
+   
 
 @login_manager.user_loader
 def load_user(user_id):

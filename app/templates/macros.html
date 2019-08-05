@@ -1,6 +1,27 @@
-{% macro display_pitch(pitches) %}
-  {% for pitch in pitches %}
-  <h1>{{pitch.title}}</h1>
-  <h3>{{pitch.description}}</h3>
-  {% endfor%}
+
+{% macro displayPitchList(movie_list) %}
+
+{% for pitch in pitch_list %}
+    <div class="col-xs-12 col-sm-4 col-md-2 col-lg-2 movie-card">
+        <img src="{{ pitch.poster }}" alt="{{ movie.title }} poster" class="img-responsive">
+        <li class="text-center">
+            <a href="/pitch/{{pitch.id}}">
+                {{ pitch.title|truncate(10)}}</a>
+        </li>
+    </div>
+
+{% endfor %}
+<!-- Displaying reviews macro -->
+{% macro displayReviews(review_list) %}
+    {% for pitch in pitch_list %}
+    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 review-card">
+        <h2> {{ review.title}} </h2>
+        <p> {{ pitch.pitch| truncate(30) }}</p>
+    </div>
+    <div class="my image">
+   <img src="https://media0.giphy.com/media/pt0EKLDJmVvlS/200w.webp?cid=790b76115d43d1b56763746336efef48&rid=200w.webp" alt="globe" width:100%; height:100px;class= "center">
+</div>
+    {% endfor %}
+{% endmacro %}
+
 {% endmacro %}
