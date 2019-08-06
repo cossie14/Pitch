@@ -5,7 +5,7 @@ from wtforms import ValidationError
 from ..models import Pitch
 
 
-class Pitch(FlaskForm):
+class PitchForm(FlaskForm):
   title = StringField('Enter the Title', validators=[Required()])
   description= TextAreaField('Give brief description',validators=[Required()])
   submit = SubmitField('Submit')

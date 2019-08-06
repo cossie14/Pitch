@@ -4,7 +4,7 @@ from flask_login import login_required
 from . import main
 from .. import db
 from ..models import User,Pitch,Comment
-from .forms import Pitch, UpdateProfile
+from .forms import PitchForm, UpdateProfile
 
 
 import markdown2
@@ -17,7 +17,7 @@ def index():
     '''
     View root page function that returns the index page and its data
     '''
-    title = 'Home - Welcome to The best Pitching Website Online'
+    title = 'Home - Welcome to The best Pitching site Online'
 
     # search_pitch = request.args.get('pitch_query')
     # pitches= Pitch.get_all_pitches()
@@ -31,7 +31,7 @@ def coding():
     '''
     View root page function that returns the index page and its data
     '''
-    pitches= Pitch.query.all()
+    pitches= Pitch.get_all_pitches()
     title = 'Home - Welcome to The best Pitching Website Online'  
     return render_template('coding.html', title = title, pitches=pitches)
 
@@ -88,13 +88,11 @@ def new_pitch():
     form = PitchForm()
 
 
-    if category is None:
-        abort( 404 )
 
     if form.validate_on_submit():
-        pitch= form.content.data
-        category_id = form.category_id.data
-        new_pitch= Pitch(pitch= pitch, category_id= category_id)
+        pitch= form.description.data
+        title = form.title.data
+        new_pitch= Pitch(pitch= pitch)
 
         new_pitch.save_pitch()
         return redirect(url_for('main.index'))
@@ -108,8 +106,7 @@ def category(id):
     '''
     category = PitchCategory.query.get(id)
 
-    if category is None:
-        abort(404)
+
 
     pitches_in_category = Pitches.get_pitch(id)
     return render_template('category.html' ,category= category, pitches= pitches_in_category)
@@ -168,7 +165,7 @@ def update_profile(uname):
 @main.route('/view/comment/<int:id>')
 def view_comments(id):
     '''
-    Function that returs  the comments belonging to a particular pitch
+    Function that returns  the comments belonging to a particular pitch
     '''
     comments = Comment.get_comments(id)
     return render_template('view_comments.html',comments = comments, id=id)
