@@ -25,13 +25,21 @@ def index():
     return render_template('index.html', title = title)
 
 #this section consist of the category root functions
+@main.route('/categories/<int:id>')
+def category(id):
+   category_ = Category.query.get(id)
+   pitches = Pitch.query.filter_by(category=category_.id).all()
+   # pitches=Pitch.get_pitches(id)
+   # title = f'{category.name} page'
+   return render_template('category.html', pitches=pitches, category=category_)
 
 @main.route('/coding/pitches/')
 def coding():
     '''
     View root page function that returns the index page and its data
     '''
-    pitches= Pitch.get_all_pitches()
+    
+    pitches=Pitch.query.filter_by(category='coding')
     title = 'Home - Welcome to The best Pitching Website Online'  
     return render_template('coding.html', title = title, pitches=pitches)
 
@@ -42,7 +50,7 @@ def poetry():
     '''
     title = 'poetry'
 
-    pitches= Pitch.get_all_pitches()
+    pitches=Pitch.query.filter_by(category='poetry')
 
     return render_template('poetry.html', title = title, pitches= pitches )
 
@@ -53,7 +61,7 @@ def intelligence():
     '''
     title = 'intelligence pitches'
 
-    pitches= Pitch.get_all_pitches()
+    pitches=Pitch.query.filter_by(category='intelligence')
 
     return render_template('intelligence.html', title = title, pitches= pitches )
 
@@ -79,37 +87,19 @@ def search(pitch_name):
 
     return render_template('search.html',pitches = searched_pitches)
 
-@main.route('/pitch/new/', methods = ['GET','POST'])
+
+@main.route("/post/new", methods= ['GET', 'POST'])
 @login_required
 def new_pitch():
-    '''
-    Function that creates new pitches
-    '''
-    form = PitchForm()
 
-
-
-    if form.validate_on_submit():
-        pitch= form.description.data
-        title = form.title.data
-        new_pitch= Pitch(pitch= pitch)
-
-        new_pitch.save_pitch()
+    forms = PitchForm()
+    if forms.validate_on_submit():
+        pitch = Pitch(title=forms.title.data, category = forms.category.data)
+        db.session.add(pitch)
+        db.session.commit()
+        
         return redirect(url_for('main.index'))
-
-    return render_template('new_pitch.html', new_pitch_form= form, category= category)
-
-@main.route('/category/<int:id>')
-def category(id):
-    '''
-    function that returns pitches based on the entered category id
-    '''
-    category = PitchCategory.query.get(id)
-
-
-
-    pitches_in_category = Pitches.get_pitch(id)
-    return render_template('category.html' ,category= category, pitches= pitches_in_category)
+    return render_template('new_pitch.html',title = 'New Post',new_pitch_form = forms)
 
 @main.route('/pitch/comments/new/<int:id>',methods = ['GET','POST'])
 @login_required

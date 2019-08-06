@@ -8,6 +8,7 @@ from ..models import Pitch
 class PitchForm(FlaskForm):
   title = StringField('Enter the Title', validators=[Required()])
   description= TextAreaField('Give brief description',validators=[Required()])
+  category=StringField('Enter category',validators=[Required()])
   submit = SubmitField('Submit')
  
 

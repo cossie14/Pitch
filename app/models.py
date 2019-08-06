@@ -6,9 +6,7 @@ from datetime import datetime
 
 
 
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
+
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
@@ -16,13 +14,14 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer,primary_key = True)
     username = db.Column(db.String(255),index = True) 
     email = db.Column(db.String(255),unique = True,index = True)
-    role_id = db.Column(db.Integer,db.ForeignKey('roles.id'))
     bio = db.Column(db.String(255))
     profile_pic_path = db.Column(db.String())
     password_hash = db.Column(db.String(255))
     pass_secure = db.Column(db.String(255))
     pitch = db.relationship('Pitch',backref = 'users',lazy="dynamic")
-
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.get(int(user_id))
     def save_comment(self):
         db.session.add(self)
         db.session.commit()
@@ -55,7 +54,7 @@ class Pitch(db.Model):
     id = db.Column(db.Integer,primary_key = True)
     pitch = db.Column(db.String)
     title = db.Column(db.String)
-    category_id = db.Column(db.Integer)
+    category = db.Column(db.String)
     user_id = db.Column(db.Integer,db.ForeignKey("users.id"))
     comments = db.relationship('Comment',backref = 'pitch',lazy="dynamic")
         
@@ -113,15 +112,7 @@ class Comment(db.Model):
 
         return comments
 
-class Role(db.Model):
-    __tablename__ = 'roles'
 
-    id = db.Column(db.Integer,primary_key = True)
-    name = db.Column(db.String(255))
-    users = db.relationship('User',backref = 'role',lazy="dynamic") 
-
-    def __repr__(self):
-        return f'User {self.name}'  
 
 
 class Categories(db.Model):
