@@ -11,14 +11,14 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS=False
     
     
-    #  email configurations
-    # MAIL_SERVER = 'smtp.googlemail.com'
-    # MAIL_PORT = 587 
-    # MAIL_USE_TLS = True
-    # MAIL_USERNAME = 'sylviah.ruto@gmail.com'
-    # MAIL_PASSWORD = 'mulu@gift'
-    # SUBJECT_PREFIX = 'Pitch'
-    # SENDER_EMAIL = 'sylviah.ruto@gmail.com'
+    # email configurations
+    MAIL_SERVER = 'smtp.googlemail.com'
+    MAIL_PORT = 587 
+    MAIL_USE_TLS = True
+    MAIL_USERNAME = 'sylviah.ruto@gmail.com'
+    MAIL_PASSWORD = 'mulu@gift'
+    SUBJECT_PREFIX = 'Pitch'
+    SENDER_EMAIL = 'sylviah.ruto@gmail.com'
 
     # simple mde  configurations
     SIMPLEMDE_JS_IIFE = True
@@ -35,10 +35,11 @@ class ProdConfig(Config):
         Config: The parent configuration class with General configuration settings
      '''
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://sylviah:sly@localhost/sly'
+    # SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
     
 class DevConfig(Config):
     '''
-    Development  configuration child class
+    Dev7elopment  configuration child class
     Args:
         Config: The parent configuration class with General configuration settings
     '''
