@@ -25,7 +25,7 @@
  6 Then run the application on terminal using the commands
        $ chmod +x start.sh
         $ ./start.sh
- 7 Enjoy!
+ 7  Enjoy!
 
 
 ## Technologies used
